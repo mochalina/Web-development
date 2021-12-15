@@ -1,0 +1,32 @@
+<?php
+echo("Ассоциативный массив");
+$cust = array("cnum" => " 2001", "cname" => "Hoffman", "city" => " London", "snum" => " 1001");
+echo "<br>";
+echo "<pre>";
+print_r($cust);
+echo "</pre>";
+echo "<br>";
+echo("Добавление ключа ");
+$cust += ["rating" => "100"];
+echo "<pre>";
+print_r($cust);
+echo "</pre>";
+echo "<br>";
+echo("Сортировка  по значениям");
+arsort($cust);
+echo "<pre>";
+print_r($cust);
+echo "</pre>";
+echo "<br>";
+echo("Сортировка  по ключам");
+ksort($cust);
+echo "<pre>";
+print_r($cust);
+echo "</pre>";
+echo "<br>";
+echo("Сортировка   массива с помощью функции sort()");
+sort($cust);
+echo "<pre>";
+print_r($cust);
+echo "</pre>";
+?>
