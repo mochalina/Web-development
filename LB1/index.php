@@ -58,6 +58,27 @@
     <li><a href="labs-2-5.php">Упражнение 2-5</a></li>
     <li><a href="labs-2-6.php">Упражнение 2-6</a></li>
 
+    <p><a></a> Лабораторная работа № 3 </a></p>
+    <p>
+        <a></a> Практическая работа 1 </p>
+    <li><a href="f1.html">Упражнение 3-1</a></li>
+    <li><a href="f2.html">Упражнение 3-2</a></li>
+    <li><a href="f3.html">Упражнение 3-3</a></li>
+    <li><a href="f4.html">Упражнение 3-4</a></li>
+    <li><a href="f5.html">Упражнение 3-5</a></li>
+    <li><a href="f6.html">Упражнение 3-6</a></li>
+    <li><a href="f7.php">Упражнение 3-7</a></li>
+    <p>
+
+    <p><a></a> Cамостоятельная работа </a>
+    </p>
+    <li><a href="s3-1.html">Упражнение 3.1</a></li>
+    <li><a href="s3-2.html">Упражнение 3.2</a></li>
+    <li><a href="s3-3.html">Упражнение 3.3</a></li>
+    <li><a href="s3-4.html">Упражнение 3.4</a></li>
+    <li><a href="s3-5.html">Упражнение 3.5</a></li>
+    <li><a href="s3-6.html">Упражнение 3.6</a></li>
+
 </ul>
 </body>
 </html>
