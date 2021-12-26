@@ -1,8 +1,10 @@
  <?php
-    $mysqli = new mysqli("localhost", "a0609677_root", "root", "a0609677_games");
-    if ($mysqli->connect_errno) {
-        echo "Не удалось подключиться к БД";
-    }
+include ("checks.php");
+require_once 'connect1.php';
+$mysqli = new mysqli($host, $user, $password, $database);
+if ($mysqli->connect_errno) {
+    echo "Не удалось подключиться к БД";
+}
 
     $key_date = $_GET['key_date'];
     $key_date_end = $_GET['key_date_end'];
@@ -18,12 +20,17 @@
         key_cost='$key_cost', key_name ='$key_name'"
     );
 
-if ($result){
-print "<p>Внесение данных прошло успешно!";
-print "<p><a href='key.php'> Вернуться к списку </a>";
+if ($result) {
+    print "<p>Внесение данных прошло успешно!";
+    if ($_SESSION['type'] == 1)
+        echo "<p><a href=key.php> Вернуться к списку </a>";
+    elseif ($_SESSION['type'] == 2)
+        echo ".<p><a href=keyAdm.php> Вернуться к списку </a>";
+} else {
+    if ($_SESSION['type'] == 1)
+        echo "Ошибка сохранения . <p><a href=key.php> Вернуться к списку </a>";
+    elseif ($_SESSION['type'] == 2)
+        echo "Ошибка сохранения . <p><a href=keyAdm.php> Вернуться к списку </a>";
 }
-else{
-print "Ошибка сохранения <a href='key.php'> Вернуться к списку </a>";
-}
-   
+mysqli_close($mysqli);
 ?>

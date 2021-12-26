@@ -4,10 +4,12 @@
 </head>
 <body>
 <?php
-$mysqli= new mysqli("localhost", "a0609677_root", "root", "a0609677_games");
+include("checks.php");
+require_once 'connect1.php';
+$mysqli = new mysqli($host, $user, $password, $database);
 if ($mysqli->connect_errno) {
-echo "Невозможно подключиться к серверу"; 
-}// установление соединения с сервером
+    echo "Невозможно подключиться к серверу";
+}
 $id_stores = $_GET['id_stores'];
 
 $result = $mysqli->query("SELECT stores_name, stores_url FROM stores WHERE id_stores='$id_stores'");
@@ -26,7 +28,10 @@ print "<input type='hidden' name='id_stores' size='11' type='int'
 value='$id_stores'>";
 print "<input type='submit' name='save' value='Сохранить'>";
 print "</form>";
-print "<p><a href='stores.php'> Вернуться к списку магазинов </a>";
+if ($_SESSION['type'] == 1)
+    echo "<p><a href=stores.php> Вернуться назад </a>";
+elseif ($_SESSION['type'] == 2)
+    echo "<p><a href=storesAdm.php> Вернуться назад </a>";
 ?>
 </body>
 </html>

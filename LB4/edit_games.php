@@ -4,14 +4,15 @@
 </head>
 <body>
 <?php
-$mysqli= new mysqli("localhost", "a0609677_root", "root", "a0609677_games");
+include("checks.php");
+require_once 'connect1.php';
+$mysqli = new mysqli($host, $user, $password, $database);
 if ($mysqli->connect_errno) {
-echo "Невозможно подключиться к серверу"; 
-}// установление соединения с сервером
+    echo "Невозможно подключиться к серверу";}
+    
 $id_games = $_GET['id_games'];
-
 $result = $mysqli->query("SELECT games_name, games_genre, games_developer, games_publisher, games_sales
-FROM games1 WHERE id_games='$id_games'");
+FROM games WHERE id_games='$id_games'");
 if ($result){
  while ($gm = $result->fetch_array()) {
  $games_name = $gm['games_name'];
@@ -20,6 +21,7 @@ if ($result){
  $games_publisher = $gm['games_publisher'];
  $games_sales = $gm['games_sales'];
  }}
+ 
  
 print "<form action='save_edit_games.php' method='get'>";
 print "Название: <input name='games_name' size='30' type='varchar'
@@ -36,7 +38,10 @@ print "<input type='hidden' name='id_games' size='11' type='int'
 value='$id_games'>";
 print "<input type='submit' name='save' value='Сохранить'>";
 print "</form>";
-print "<p><a href='index.php'> Вернуться к списку игр </a>";
+if ($_SESSION['type'] == 1)
+    echo "<p><a href=os.php> Вернуться назад </a>";
+elseif ($_SESSION['type'] == 2)
+    echo "<p><a href=osAdm.php> Вернуться назад </a>";
 ?>
 </body>
 </html>

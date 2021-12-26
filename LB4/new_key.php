@@ -4,10 +4,13 @@
 <H2>Добавление нового ключа:</H2>
 <form action="save_new_key.php" method="get">
 <?
-$mysqli= new mysqli("localhost", "a0609677_root", "root", "a0609677_games");
-if ($mysqli->connect_errno) {
-echo "Невозможно подключиться к серверу"; 
-}
+ include ("checks.php");
+    require_once 'connect1.php';
+    $mysqli = new mysqli($host, $user, $password, $database);
+    if ($mysqli->connect_errno) {
+        echo "Невозможно подключиться к серверу";
+    }
+    //id игры
 //id игры
    $result = $mysqli->query("SELECT id_games, games_name FROM games");
     echo "<br>Игра: <select name='id_games'>"; 
@@ -33,16 +36,17 @@ echo "Невозможно подключиться к серверу";
       }
        echo "</select>";
 
-print "<br> дата приобретения: <input name='kluch_date' placeholder='dd-mm-yyyy' type='date' value=$kluch_date>";
-print "<br> дата окончания: <input name='kluch_date_end' placeholder='dd-mm-yyyy' type='date' value=$kluch_date_end>";
-print "<br> стоимость: <input name='kluch_cost' size='11' type='int' value=$kluch_cost>";
-print "<br> ключ: <input name='kluch_name' size='11' type='int'value=$kluch_name>";
-?>
-
-
-<p><input name="add" type="submit"  value="Добавить">
-<input name="b2" type="reset" value="Очистить"></p>
-<p><a href="kluch.php"> Вернуться к списку ключей </a>
+ print "<br> дата приобретения: <input name='date_buy' placeholder='dd-mm-yyyy' type='date' value=$date_buy>";
+    print "<br> дата окончания: <input name='date_ex' placeholder='dd-mm-yyyy' type='date' value=$date_ex>";
+    print "<br> стоимость: <input name='price' size='11' type='int' value=$price>";
+    print "<br> ключ: <input name='key_name' size='11' type='int'value=$key_name>";
+    echo "<p><input name='add' type='submit' value='Добавить'></p>";
+    echo "<p><input name='b2' type='reset' value='Очистить'></p>";
+    if ($_SESSION['type'] == 1)
+        echo "<p><a href=key.php> Вернуться к списку ключей </a></p>";
+    elseif ($_SESSION['type'] == 2)
+        echo "<p><a href=keyAdm.php> Вернуться к списку ключей </a></p>";
+    ?>
 </form>
 </body>
 </html>

@@ -1,9 +1,10 @@
 <html><body>
 <?php
-$mysqli = new mysqli("localhost", "a0609677_root", "root", "a0609677_games");
-if ($mysqli->connect_errno){
-    echo"Невозможно подключиться к серверу";} // установление соединения с сервером
-
+include("checks.php");
+require_once 'connect1.php';
+$mysqli = new mysqli($host, $user, $password, $database);
+if ($mysqli->connect_errno) {
+    echo "Невозможно подключиться к серверу";}
 $id_key=$_GET['id_key'];    
 $key_date=$_GET['key_date'] ;    
 $key_date_end=$_GET['key_date_end'];
@@ -13,12 +14,19 @@ $key_cost=$_GET['key_cost'];
 $key_name=$_GET['key_name'];
 
 $result = $mysqli->query ("UPDATE kl SET key_date='$key_date', key_date_end='$key_date_end' , 
-id_games='$id_games', id_stores='$id_stores', key_cost='$kluch_cost', key_name='$key_name'
+id_games='$id_games', id_stores='$id_stores', key_cost='$key_cost', key_name='$key_name'
 WHERE id_key='$id_key'");
 
-    
-if ($result) 
-{echo 'Все сохранено. <a href="key.php"> Вернуться к списку ключей </a>'; }
-else { echo 'Ошибка сохранения. <a href="key.php">Вернуться к списку ключей</a> '; }
+if ($result) {
+    if ($_SESSION['type'] == 1)
+        echo "Все сохранено.<p><a href=key.php> Вернуться к списку ключей </a>";
+    elseif ($_SESSION['type'] == 2)
+        echo "Все сохранено.<p><a href=keyAdm.php> Вернуться к списку ключей </a>";
+} else {
+    if ($_SESSION['type'] == 1)
+        echo "Ошибка сохранения. <p></p><a href=key.php> Вернуться к списку ключей </a>";
+    elseif ($_SESSION['type'] == 2)
+        echo "Ошибка сохранения. <p><a href=keyAdm.php> Вернуться к списку ключей </a>";
+}
 ?>
 </body></html>

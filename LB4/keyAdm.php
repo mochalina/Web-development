@@ -1,22 +1,28 @@
 <html>
-<head> <title> Сведения о ключах </title> </head>
+<head><title> Сведения о ключах </title></head>
 <body>
 <h2>Сведения о ключах:</h2>
 <table border="1">
-<tr>
-<th>ID ключа</th>
- <th>дата приобретения</th> <th> дата окончания </th>
- <th> игра </th> <th> магазин </th>
- <th> стоимость </th> <th> ключ </th> <th> Редактировать </th> <th> Уничтожить </th> </tr>
- </tr>
- <?php
+    <tr>
+        <th>ID ключа</th>
+        <th>дата приобретения</th>
+        <th> дата окончания</th>
+        <th> ОС</th>
+        <th> магазин</th>
+        <th> стоимость</th>
+        <th> ключ</th>
+        <th> Редактировать</th>
+        <th> Уничтожить</th>
+    </tr>
+    </tr>
+    <?php
     include("checks.php");
     require_once 'connect1.php';
     $mysqli = new mysqli($host, $user, $password, $database);
     if ($mysqli->connect_errno) {
         echo "Невозможно подключиться к серверу";
     }
-$result=$mysqli->query("SELECT kl.id_key, kl.key_date, kl.key_date_end, games.games_name as games, stores.stores_name as stores, kl.key_cost, kl.key_name
+   $result=$mysqli->query("SELECT kl.id_key, kl.key_date, kl.key_date_end, games.games_name as games, stores.stores_name as stores, kl.key_cost, kl.key_name
 FROM kl 
 LEFT JOIN games ON kl.id_games=games.id_games
 LEFT JOIN stores ON kl.id_stores=stores.id_stores"); // запрос на выборку сведений о пользователях
@@ -55,4 +61,5 @@ LEFT JOIN stores ON kl.id_stores=stores.id_stores"); // запрос на выб
         echo "<p><a href=gamesAdm.php> Вернуться назад </a>";
     include("checkSession.php");
     ?>
-</body> </html>
+</body>
+</html>

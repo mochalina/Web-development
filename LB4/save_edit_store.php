@@ -1,9 +1,11 @@
 <html><body>
 <?php
-$mysqli = new mysqli("localhost", "a0609677_root", "root", "a0609677_games");
-if ($mysqli->connect_errno){
-    echo"Невозможно подключиться к серверу";} // установление соединения с сервером
-	
+include("checks.php");
+require_once 'connect1.php';
+$mysqli = new mysqli($host, $user, $password, $database);
+if ($mysqli->connect_errno) {
+    echo "Невозможно подключиться к серверу";
+} // установление соединения с сервером
 	
 $id_stores=$_GET['id_stores'];    
 $stores_name=$_GET['stores_name'] ;    
@@ -14,8 +16,16 @@ WHERE id_stores='$id_stores'";
 
 $result = $mysqli->query ($zapros);
 
-if ($result) 
-{echo 'Все сохранено. <a href="stores.php"> Вернуться к списку магазинов </a>'; }
-else { echo 'Ошибка сохранения. <a href="stores.php">Вернуться к списку магазинов</a> '; }
+if ($result) {
+    if ($_SESSION['type'] == 1)
+        echo "Все сохранено.<a href=stores.php> Вернуться к списку магазинов </a>";
+    elseif ($_SESSION['type'] == 2)
+        echo "Все сохранено.<a href=storesAdm.php> Вернуться к списку магазинов </a>";
+} else {
+    if ($_SESSION['type'] == 1)
+        echo "Ошибка сохранения.<a href=stores.php> Вернуться к списку магазинов </a>";
+    elseif ($_SESSION['type'] == 2)
+        echo "Ошибка сохранения.<a href=storesAdm.php> Вернуться к списку магазинов </a>";
+}
 ?>
 </body></html>

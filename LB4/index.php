@@ -1,43 +1,50 @@
-<? require_once 'connect1.php';?>
-<html>
-<head> <title> Сведения об играх </title> </head>
+<!DOCTYPE html>
+<html lang="en">
 <body>
-<h2>Сведения об играх:</h2>
-<table border="1">
-<tr>
-<th>ID</th>
- <th>Название</th> <th> Жанр </th>
- <th> Разработчик </th> <th> Издатель </th>
- <th> Объем продаж </th> <th> Редактировать </th> <th> Уничтожить </th> </tr>
- </tr>
+<form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
+    <h2>Авторизация</h2>
+    Введите Логин: <input type="text" name="user"> <br>
+    Введите Пароль: <input type="password" name="pass"> <br>
+    <input type="submit" name="come" value="Войти"> <br>
+    <input type="reset" name="reset" value="Очистить"> <br>
+</form>
 <?php
-$link = mysqli_connect($host, $user, $password, $database) or die ("Невозможно
+require_once 'connect1.php';
+if (isset($_POST["come"])) {
+    $link = mysqli_connect($host, $user, $password, $database) or die ("Невозможно
 подключиться к серверу" . mysqli_error($link));
-$result=mysqli_query($link, "SELECT id_games, games_name, games_genre, games_developer, games_publisher, games_sales
-FROM games"); // запрос на выборку сведений о пользователях
-mysqli_select_db($link, "games");
+    $user = $link->query("SELECT id_u, username, password, type FROM users");
+    // Ввод
+    $username = $_POST["user"];
+    $password = $_POST["pass"];
+    // Для индитификации входа
+    $errFlag = false;
+    // Проверка вводимых данных
+    while ($data = mysqli_fetch_array($user)) {
+        $usernameBD = $data['username'];
+        $passwordBD = $data['password'];
+        $typeBD = $data['type'];
+        $idUserBD = $data['id_u'];
 
-while ($row=mysqli_fetch_array($result)){// для каждой строки из запроса
- echo "<tr>";
- echo "<td>" . $row['id_games'] . "</td>";
- echo "<td>" . $row['games_name'] . "</td>";
- echo "<td>" . $row['games_genre'] . "</td>";
- echo "<td>" . $row['games_developer'] . "</td>";
- echo "<td>" . $row['games_publisher'] . "</td>";
- echo "<td>" . $row['games_sales'] . "</td>";
- echo "<td><a href='edit_games.php?id_games=" . $row['id_games']
-. "'>Редактировать</a></td>"; // запуск скрипта для редактирования
- echo "<td><a href='delete_games.php?id_games=" . $row['id_games']
-. "'>Удалить</a></td>"; // запуск скрипта для удаления записи
- echo "</tr>";
+        if ($username === $usernameBD && md5($password) === $passwordBD) {
+            $errFlag = true;
+            session_start();
+            $_SESSION['type'] = $typeBD;
+            $_SESSION['id_u'] = $idUserBD;
+            break;
+        } else
+            $errFlag = false;
+    }
+
+    if ($errFlag && $_SESSION['type'] == 1)
+        header("Refresh:0; url=games.php");
+    elseif ($errFlag && $_SESSION['type'] == 2)
+        header("Refresh:0; url=gamesAdm.php");
+    else
+        echo "Логин или пароль введен не верно";
+
 }
-print "</table>";
-$num_rows = mysqli_num_rows($result); // число записей в таблице БД
-print("<P>Всего игр: $num_rows </p>");
 ?>
-<p> <a href="new_games.php"> Добавить игру </a>
-<p> <a href="key.php">Ключи</a>
-<p> <a href="stores.php">Магазины</a>
-<p> <a href="gen_pdf.php">Скачать pdf-файл</a>
-<p> <a href="gen_xls.php">Скачать xls-файл</a>
-</body> </html>
+<br>
+</body>
+</html>

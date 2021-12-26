@@ -4,11 +4,11 @@
 </head>
 <body>
 <?php
-
-
-$mysqli= new mysqli("localhost", "a0609677_root", "root", "a0609677_games");
+include("checks.php");
+require_once 'connect1.php';
+$mysqli = new mysqli($host, $user, $password, $database);
 if ($mysqli->connect_errno) {
-echo "Невозможно подключиться к серверу"; 
+    echo "Невозможно подключиться к серверу";
 }// установление соединения с сервером
 $id_key1 = $_GET['id_key'];
 $prod = mysqli_query($mysqli,"SELECT
@@ -88,7 +88,10 @@ print "<br> ключ: <input name='key_name' size='11' type='int'value=$key_name
 print "<input type='hidden' name='id_key' size='11' value=$id_key1>";
 print "<input  name='save' type='submit' value='Сохранить'>";
 print "</form>";
-print "<p><a href='key.php'> Вернуться к списку ключей </a>";
+if ($_SESSION['type'] == 1)
+    echo "<p><a href=key.php> Вернуться назад </a>";
+elseif ($_SESSION['type'] == 2)
+    echo "<p><a href=keyAdm.php> Вернуться назад </a>";
 ?>
 </body>
 </html>
